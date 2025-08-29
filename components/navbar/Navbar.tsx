@@ -9,6 +9,7 @@ const Navbar = () => {
   return (
     <nav className="border-b">
       <Container
+        size="xl"
         className="
           flex flex-col 
           sm:flex-row 
@@ -17,6 +18,7 @@ const Navbar = () => {
           flex-wrap 
           gap-4
           py-8
+          bg-gray-700
         "
       >
         <Logo />
