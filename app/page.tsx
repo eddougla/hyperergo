@@ -1,13 +1,12 @@
-import Container from "@/components/shared/Container";
+import Hero from "@/components/landing/Hero";
+import FeaturedProducts from "@/components/landing/FeaturedProducts";
 
 const LandingPage = () => {
   return (
-    <Container
-      size="xl"
-      className="bg-red-500 xs:bg-blue-500 sm:bg-green-500 md:bg-purple-500 lg:bg-yellow-500 xl:bg-orange-500"
-    >
-      <p>This div changes color at different breakpoints!</p>
-    </Container>
+    <>
+      <Hero />
+      <FeaturedProducts />
+    </>
   );
 };
 
