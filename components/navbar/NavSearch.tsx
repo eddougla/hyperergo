@@ -2,32 +2,33 @@
 import { Input } from "@/components/ui/input";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
-const NavSearch = () => {
+const NavSearchInput = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-
   const [search, setSearch] = useState(
     () => searchParams.get("search")?.toString() || ""
   );
+
   const handleSearch = useDebouncedCallback((value: string) => {
     const params = new URLSearchParams(searchParams.toString());
-
     if (value) {
       params.set("search", value);
     } else {
       params.delete("search");
     }
-
     router.replace(`/products?${params.toString()}`);
   }, 300);
 
+  // Extract search value to fix the useEffect warning
+  const currentSearch = searchParams.get("search");
+
   useEffect(() => {
-    if (!searchParams.get("search")) {
+    if (!currentSearch) {
       setSearch("");
     }
-  }, [searchParams.get("search")]);
+  }, [currentSearch]);
 
   return (
     <Input
@@ -42,6 +43,18 @@ const NavSearch = () => {
         handleSearch(value);
       }}
     />
+  );
+};
+
+const NavSearch = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="max-w-xs h-10 bg-gray-200 animate-pulse rounded" />
+      }
+    >
+      <NavSearchInput />
+    </Suspense>
   );
 };
 
