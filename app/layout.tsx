@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import Container from "@/components/shared/Container";
 import { Providers } from "./providers";
-import Hero from "@/components/landing/Hero";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,11 +31,8 @@ export default function RootLayout({
         <Providers>
           <Container size="full" className="relative z-50">
             <Navbar />
-            <Hero />
           </Container>
-          <Container size="xl" className="min-h-screen">
-            {children}
-          </Container>
+          {children}
         </Providers>
       </body>
     </html>

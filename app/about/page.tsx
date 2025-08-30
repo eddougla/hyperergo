@@ -1,8 +1,14 @@
+import Hero from "@/components/about/Hero";
+import Container from "@/components/shared/Container";
+
 const AboutPage = () => {
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold">About Page</h1>
-    </div>
+    <>
+      <Container size="full" className="min-h-screen">
+        <Hero />
+      </Container>
+    </>
   );
 };
+
 export default AboutPage;

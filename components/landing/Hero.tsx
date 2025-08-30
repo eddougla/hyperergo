@@ -16,7 +16,7 @@ const Hero = () => {
         w-full
       "
       style={{
-        backgroundImage: "url('/images/hero/background.png')",
+        backgroundImage: "url('/images/hero/background-01.png')",
       }}
     >
       {/* Left Column */}
