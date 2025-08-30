@@ -29,9 +29,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
-          <Container size="full" className="relative z-50">
-            <Navbar />
-          </Container>
+          <Navbar />
           {children}
         </Providers>
       </body>

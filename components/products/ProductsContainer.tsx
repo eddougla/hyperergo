@@ -21,7 +21,7 @@ const ProductsContainer = async ({
   const searchTerm = search ? `&search=${search}` : "";
 
   return (
-    <>
+    <Container size="xl">
       <section className="flex justify-between items-center my-4">
         <h4 className="font-medium text-lg">
           {totalProducts} product{totalProducts !== 1 ? "s" : ""}
@@ -62,7 +62,7 @@ const ProductsContainer = async ({
       ) : (
         <ProductsList products={products} />
       )}
-    </>
+    </Container>
   );
 };
 

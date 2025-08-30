@@ -21,10 +21,8 @@ const ProductPage = async ({ params }: Params) => {
 
   return (
     <>
-      <Container size="full">
-        <Hero />
-      </Container>
-      <Container size="xl" className="my-8 mx-8">
+      <Hero />
+      <Container size="xl" className="my-8">
         <BreadCrumbs name={name} />
         <section className="mt-6 grid gap-y-8 lg:grid-cols-2">
           {/* IMAGE COLUMN */}
