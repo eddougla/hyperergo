@@ -16,7 +16,7 @@ const ProductsPage = ({ searchParams }: { searchParams: SearchParams }) => {
       <Container size="full">
         <Hero />
       </Container>
-      <Container size="xl" className="mb-8">
+      <Container size="xl" className="mb-8 mx-8">
         <ProductsContainer layout={layout} search={search} />
       </Container>
     </>
