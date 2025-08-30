@@ -1,12 +1,10 @@
-import Hero from "@/components/landing/Hero";
 import FeaturedProducts from "@/components/landing/FeaturedProducts";
 
 const LandingPage = () => {
   return (
-    <>
-      <Hero />
+    <section>
       <FeaturedProducts />
-    </>
+    </section>
   );
 };
 
