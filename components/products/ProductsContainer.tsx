@@ -22,57 +22,45 @@ const ProductsContainer = async ({
 
   return (
     <>
-      <Container size="xl">
-        <section className="flex justify-between items-center my-4">
-          <h4 className="font-medium text-lg">
-            {totalProducts} product{totalProducts !== 1 ? "s" : ""}
-          </h4>
+      <section className="flex justify-between items-center my-4">
+        <h4 className="font-medium text-lg">
+          {totalProducts} product{totalProducts !== 1 ? "s" : ""}
+        </h4>
 
-          <div className="flex gap-4">
-            {/* Grid View Button */}
-            <Button
-              size="icon"
-              variant={layout === "grid" ? "default" : "ghost"}
-              asChild
-            >
-              <Link href={`/products?layout=grid${searchTerm}`}>
-                <LuLayoutGrid />
-              </Link>
-            </Button>
+        <div className="flex gap-4">
+          {/* Grid View Button */}
+          <Button
+            size="icon"
+            variant={layout === "grid" ? "default" : "ghost"}
+            asChild
+          >
+            <Link href={`/products?layout=grid${searchTerm}`}>
+              <LuLayoutGrid />
+            </Link>
+          </Button>
 
-            {/* List View Button */}
-            <Button
-              size="icon"
-              variant={layout === "list" ? "default" : "ghost"}
-              asChild
-            >
-              <Link href={`/products?layout=list${searchTerm}`}>
-                <LuList />
-              </Link>
-            </Button>
-          </div>
-        </section>
-        <Separator className="mt-4" />
-      </Container>
+          {/* List View Button */}
+          <Button
+            size="icon"
+            variant={layout === "list" ? "default" : "ghost"}
+            asChild
+          >
+            <Link href={`/products?layout=list${searchTerm}`}>
+              <LuList />
+            </Link>
+          </Button>
+        </div>
+      </section>
+      <Separator className="mt-4" />
       {/* Display logic based on layout */}
       {totalProducts === 0 ? (
-        <Container size="xl" className="px-8">
-          <h5 className="text-2xl mt-16">
-            Sorry, no products matched your search.
-          </h5>
-        </Container>
+        <h5 className="text-2xl mt-16">
+          Sorry, no products matched your search.
+        </h5>
       ) : layout === "grid" ? (
-        <Container size="xl" className="px-8">
-          {" "}
-          {/* Add this wrapper */}
-          <ProductsGrid products={products} />
-        </Container>
+        <ProductsGrid products={products} />
       ) : (
-        <Container size="xl" className="px-8">
-          {" "}
-          {/* And this one */}
-          <ProductsList products={products} />
-        </Container>
+        <ProductsList products={products} />
       )}
     </>
   );
