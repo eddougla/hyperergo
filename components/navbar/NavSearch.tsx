@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { useState, useEffect, Suspense } from "react";
 
+// Separate the search logic into its own component
 const NavSearchInput = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -21,14 +22,11 @@ const NavSearchInput = () => {
     router.replace(`/products?${params.toString()}`);
   }, 300);
 
-  // Extract search value to fix the useEffect warning
-  const currentSearch = searchParams.get("search");
-
   useEffect(() => {
-    if (!currentSearch) {
+    if (!searchParams.get("search")) {
       setSearch("");
     }
-  }, [currentSearch]);
+  }, [searchParams]);
 
   return (
     <Input
@@ -46,13 +44,21 @@ const NavSearchInput = () => {
   );
 };
 
+// Loading fallback component
+const SearchInputFallback = () => (
+  <Input
+    type="search"
+    placeholder="Search product..."
+    name="search"
+    className="max-w-xs text-white"
+    disabled
+  />
+);
+
+// Main component with Suspense wrapper
 const NavSearch = () => {
   return (
-    <Suspense
-      fallback={
-        <div className="max-w-xs h-10 bg-gray-200 animate-pulse rounded" />
-      }
-    >
+    <Suspense fallback={<SearchInputFallback />}>
       <NavSearchInput />
     </Suspense>
   );
