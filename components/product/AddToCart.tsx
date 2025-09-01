@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 
 type Props = {
-  _productId: string;
+  productId: string;
 };
 
-const AddToCart = ({ _productId }: Props) => {
+const AddToCart = ({ productId }: Props) => {
   return (
     <Button className="capitalize mt-8" size="lg">
       Add to cart
