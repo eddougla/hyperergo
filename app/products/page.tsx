@@ -1,5 +1,4 @@
 import ProductsContainer from "@/components/products/ProductsContainer";
-import Container from "@/components/shared/Container";
 import Hero from "@/components/products/Hero";
 
 type SearchParams = {

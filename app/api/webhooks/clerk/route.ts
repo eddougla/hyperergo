@@ -48,20 +48,25 @@ export async function POST(request: Request) {
           console.log(
             `🎉 Successfully added user ${userId} to organization ${defaultOrgId}`
           );
-
-          // REMOVE ALL THE METADATA UPDATE CODE - you don't need it anymore
         } catch (orgError) {
           console.error(`💥 Failed to add user to organization:`, orgError);
 
+          // Fix: Properly type the error instead of using 'any'
           if (
             orgError &&
             typeof orgError === "object" &&
             "status" in orgError
           ) {
+            const clerkError = orgError as {
+              status: number;
+              clerkTraceId: string;
+              errors: unknown[];
+            };
+
             console.error(`💥 Error details:`, {
-              status: (orgError as any).status,
-              clerkTraceId: (orgError as any).clerkTraceId,
-              errors: (orgError as any).errors,
+              status: clerkError.status,
+              clerkTraceId: clerkError.clerkTraceId,
+              errors: clerkError.errors,
             });
           }
         }

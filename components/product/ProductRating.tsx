@@ -1,10 +1,10 @@
 import { FaStar } from "react-icons/fa";
 
 type Props = {
-  productId: string;
+  _productId: string;
 };
 
-const ProductRating = ({ productId }: Props) => {
+const ProductRating = ({ _productId }: Props) => {
   const rating = 4.5; // Hardcoded for now
   const count = 25;
 

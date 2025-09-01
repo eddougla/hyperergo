@@ -1,5 +1,6 @@
 import { LuUser } from "react-icons/lu";
 import { currentUser } from "@clerk/nextjs/server";
+import Image from "next/image";
 
 const UserIcon = async () => {
   const user = await currentUser();
@@ -7,9 +8,11 @@ const UserIcon = async () => {
 
   if (profileImage) {
     return (
-      <img
+      <Image
         src={profileImage}
-        alt="user icon"
+        alt="User profile"
+        width={24}
+        height={24}
         className="w-6 h-6 rounded-full object-cover"
       />
     );
