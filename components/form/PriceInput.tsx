@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 
 type FormInputNumberProps = {
   defaultValue?: number;
+  required?: boolean;
 };
 
 const name = "price";

@@ -5,6 +5,7 @@ type TextAreaInputProps = {
   name: string;
   labelText?: string;
   defaultValue?: string;
+  required?: boolean;
 };
 
 const TextArea = ({ name, labelText, defaultValue }: TextAreaInputProps) => {
