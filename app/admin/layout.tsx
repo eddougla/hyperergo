@@ -3,12 +3,16 @@ import Sidebar from "./Sidebar";
 import { Separator } from "@/components/ui/separator";
 import Container from "@/components/shared/Container";
 import Hero from "@/components/admin/sales/Hero";
+import { getAdminUser } from "@/lib/helpers";
 
 type DashboardLayoutProps = {
   children: ReactNode;
 };
 
-const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
+  // 🔐 Server-side admin check (belt and suspenders approach)
+  await getAdminUser();
+
   return (
     <>
       <Hero />

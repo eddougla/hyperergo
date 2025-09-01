@@ -1,6 +1,9 @@
 "use server";
+
 import { z } from "zod";
 import { redirect } from "next/navigation";
+import db from "@/lib/db";
+import { getAdminUser, renderError } from "@/lib/helpers";
 
 const productSchema = z.object({
   name: z.string().min(1, "Product name is required"),
@@ -8,6 +11,7 @@ const productSchema = z.object({
   price: z.coerce.number().positive("Price must be positive"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   featured: z.boolean().optional(),
+  category: z.string().optional(), // Add category field
 });
 
 export const createProductAction = async (
@@ -15,25 +19,30 @@ export const createProductAction = async (
   formData: FormData
 ): Promise<{ message: string }> => {
   try {
-    // Extract form data
+    // 🔐 ADMIN CHECK: Only admins can create products
+    const adminUser = await getAdminUser();
+
+    // Extract and validate form data
     const rawData = {
       name: formData.get("name"),
       company: formData.get("company"),
       price: formData.get("price"),
       description: formData.get("description"),
       featured: formData.get("featured") === "on",
+      category: formData.get("category") || null,
     };
 
-    // Validate with Zod
     const validatedData = productSchema.parse(rawData);
 
-    // TODO: Save to database
-    // await db.product.create({ data: validatedData });
-
-    console.log("Product data:", validatedData);
-
-    // Optionally redirect after successful creation
-    // redirect("/admin/products");
+    // Create product with admin user tracking
+    await db.product.create({
+      data: {
+        ...validatedData,
+        image: "/images/product-1.jpg", // Placeholder
+        clerkId: adminUser.id,
+        createdBy: adminUser.emailAddresses[0]?.emailAddress || "admin",
+      },
+    });
 
     return { message: "Product created successfully!" };
   } catch (error) {
@@ -43,6 +52,6 @@ export const createProductAction = async (
       return { message: error.issues[0].message };
     }
 
-    return { message: "Failed to create product. Please try again." };
+    return renderError(error);
   }
 };
