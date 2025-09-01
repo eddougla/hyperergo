@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Sidebar from "./Sidebar";
 import { Separator } from "@/components/ui/separator";
 import Container from "@/components/shared/Container";
+import Hero from "@/components/admin/sales/Hero";
 
 type DashboardLayoutProps = {
   children: ReactNode;
@@ -10,7 +11,8 @@ type DashboardLayoutProps = {
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
     <>
-      <Container size="xl">
+      <Hero />
+      <Container size="xl" className="mt-8">
         <h2 className="text-2xl pl-4">Dashboard</h2>
         <Separator className="mt-2" />
 
