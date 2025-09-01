@@ -1,6 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import FormInput from "@/components/form/FormInput";
 import { Button } from "@/components/ui/button";
 
 const createProductAction = async (formData: FormData) => {
@@ -22,8 +21,12 @@ const CreateProductPage = () => {
       <div className="border p-4 rounded-md">
         <form action={createProductAction}>
           <div className="mb-2">
-            <Label htmlFor="name">Product Name</Label>
-            <Input id="name" name="name" type="text" defaultValue={name} />
+            <FormInput
+              type="text"
+              name="name"
+              label="Product Name"
+              defaultValue={name}
+            />
           </div>
 
           <Button type="submit" size="lg">
