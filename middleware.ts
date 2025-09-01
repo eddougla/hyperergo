@@ -1,13 +1,25 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 const isPublicRoute = createRouteMatcher([
   "/", // Homepage
   "/about", // About page
-  "/contact", // About page
+  "/contact", // Contact page
   "/products(.*)", // All product-related pages
+  "/api/webhooks/(.*)", // ← Add this line for webhooks
 ]);
 
+const isAdminRoute = createRouteMatcher(["/admin/:path*"]);
+
 export default clerkMiddleware(async (auth, req) => {
+  const { orgRole } = await auth();
+
+  // Redirect non-admin users away from admin routes
+  if (isAdminRoute(req) && orgRole !== "org:admin") {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  // Protect all non-public routes
   if (!isPublicRoute(req)) {
     await auth.protect();
   }
