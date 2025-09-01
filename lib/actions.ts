@@ -6,23 +6,41 @@ import db from "@/lib/db";
 import { getAdminUser, renderError } from "@/lib/helpers";
 
 const productSchema = z.object({
-  name: z.string().min(1, "Product name is required"),
-  company: z.string().min(1, "Company name is required"),
+  name: z.string().min(2, "Product name must be at least 2 characters"),
+  company: z.string().min(2, "Company name must be at least 2 characters"),
   price: z.coerce.number().positive("Price must be positive"),
-  description: z.string().min(10, "Description must be at least 10 characters"),
+  description: z.string().refine(
+    (val) => {
+      const wordCount = val.trim().split(/\s+/).length;
+      return wordCount >= 10 && wordCount <= 1000;
+    },
+    { message: "Description must be between 10 and 1000 words" }
+  ),
   featured: z.boolean().optional(),
-  category: z.string().optional(), // Add category field
+  category: z.string().optional(),
 });
+
+function validateWithProductSchema<T>(
+  schema: z.ZodSchema<T>,
+  data: unknown
+): T {
+  const result = schema.safeParse(data);
+
+  if (!result.success) {
+    const errors = result.error.issues.map((err) => err.message);
+    throw new Error(errors.join(", "));
+  }
+
+  return result.data;
+}
 
 export const createProductAction = async (
   prevState: any,
   formData: FormData
 ): Promise<{ message: string }> => {
   try {
-    // 🔐 ADMIN CHECK: Only admins can create products
     const adminUser = await getAdminUser();
 
-    // Extract and validate form data
     const rawData = {
       name: formData.get("name"),
       company: formData.get("company"),
@@ -32,13 +50,12 @@ export const createProductAction = async (
       category: formData.get("category") || null,
     };
 
-    const validatedData = productSchema.parse(rawData);
+    const validatedData = validateWithProductSchema(productSchema, rawData);
 
-    // Create product with admin user tracking
     await db.product.create({
       data: {
         ...validatedData,
-        image: "/images/product-1.jpg", // Placeholder
+        image: "/images/product-1.jpg",
         clerkId: adminUser.id,
         createdBy: adminUser.emailAddresses[0]?.emailAddress || "admin",
       },
@@ -47,11 +64,6 @@ export const createProductAction = async (
     return { message: "Product created successfully!" };
   } catch (error) {
     console.error("Error creating product:", error);
-
-    if (error instanceof z.ZodError) {
-      return { message: error.issues[0].message };
-    }
-
     return renderError(error);
   }
 };
